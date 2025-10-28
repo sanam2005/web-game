@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💥 POP: Artist Reveal Game 💥</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1 class="glow-text">💥 POP NIGHT! 💥</h1>
+        <p class="sub-title">POP NIGHT REVEAL 4th NOV at HFC LAWNS</p>
+        
+        <div id="score-board">
+            SCORE: <span id="score">0</span> |
+            HIGH SCORE: <span id="high-score">0</span>
+        </div>
+        
+        <button id="start-button">START THE RUSH</button>
+    </div>
+
+    <div id="side-panel">
+        <h2 class="glow-text">LEADERBOARD</h2>
+        <div id="player-count">Total Players (Simulated): <span id="total-players">1</span></div>
+        <ol id="leaderboard-list">
+            </ol>
+    </div>
+
+    <div id="game-over-modal" class="hidden">
+        <div class="modal-content">
+            <h2>🚨 GAME OVER 🚨</h2>
+            <p>A balloon escaped! The beat stopped!</p>
+            <p class="final-score-text">FINAL SCORE: <span id="final-score">0</span></p>
+            <label for="player-name">ENTER NAME:</label>
+            <input type="text" id="player-name" maxlength="10" placeholder="YOU">
+            <button id="submit-score-button">SUBMIT & PLAY AGAIN</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
