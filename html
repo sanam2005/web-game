@@ -4,7 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💥 POP: Artist Reveal Game 💥</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <style>:root {
+    --color-primary: #ff0055; /* Hot Pink/Red */
+    --color-background: #111111; /* Deep Black */
+    --color-text: #ffffff;
+    --color-glow: #ff55aa; /* Lighter glow color */
+}
+
+body {
+    font-family: 'Arial Black', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    overflow: hidden;
+}
+
+/* --- Typography and Glow Effect (POP Theme) --- */
+
+.glow-text {
+    color: var(--color-primary);
+    text-shadow: 0 0 5px var(--color-glow), 0 0 10px var(--color-glow);
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { text-shadow: 0 0 5px var(--color-glow), 0 0 10px var(--color-glow); }
+    to { text-shadow: 0 0 8px var(--color-glow), 0 0 15px var(--color-primary); }
+}
+
+h1 {
+    font-size: 3em;
+    margin-bottom: 5px;
+}
+
+.sub-title {
+    font-size: 1em;
+    font-weight: bold;
+    color: #bbb;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* --- Game Container --- */
+
+#game-container {
+    width: 500px;
+    height: 750px;
+    background-color: #222;
+    border: 5px solid var(--color-primary);
+    box-shadow: 0 0 40px rgba(255, 0, 85, 0.5);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding-top: 20px;
+    margin-right: 30px;
+}
+
+#score-board {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--color-text);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 8px 15px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+#start-button {
+    padding: 15px 30px;
+    font-size: 1.6em;
+    cursor: pointer;
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border: none;
+    border-radius: 10px;
+    transition: all 0.2s;
+    font-weight: bold;
+}
+
+#start-button:hover:not(:disabled) {
+    background-color: var(--color-glow);
+    transform: scale(1.05);
+}
+
+.balloon {
+    width: 70px;
+    height: 90px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    bottom: -100px; 
+    cursor: pointer;
+    /* Simulate a glossy/vinyl pop look */
+    box-shadow: inset -10px -10px 0 rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.5) inset;
+    opacity: 0.9;
+    transition: bottom 4s linear; /* Faster movement for more challenge */
+    z-index: 10;
+}
+
+.pop {
+    opacity: 0;
+    transform: scale(2.0) rotate(30deg); /* Dramatic Pop */
+    transition: opacity 0.1s, transform 0.1s;
+}
+
+/* --- Side Panel / Leaderboard --- */
+
+#side-panel {
+    width: 300px;
+    padding: 20px;
+    background-color: #222;
+    border: 3px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin-left: 30px;
+    text-align: left;
+}
+
+#player-count {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+#leaderboard-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#leaderboard-list li {
+    font-size: 1.2em;
+    padding: 8px 0;
+    border-bottom: 1px dashed #333;
+}
+
+#leaderboard-list li:first-child {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+}
+
+
+/* --- Game Over Modal --- */
+
+#game-over-modal {
+    position: fixed; /* Use fixed to cover the entire screen */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20; 
+}
+
+.modal-content {
+    background-color: #222;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 0 50px var(--color-primary);
+    border: 5px solid var(--color-primary);
+    color: var(--color-text);
+}
+
+.modal-content h2 {
+    color: var(--color-primary);
+    font-size: 2.5em;
+}
+
+.final-score-text {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+#player-name {
+    padding: 10px;
+    margin: 10px 0 20px;
+    border: 2px solid var(--color-primary);
+    background-color: #333;
+    color: white;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+#submit-score-button {
+    padding: 12px 25px;
+    font-size: 1.3em;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#submit-score-button:hover {
+    background-color: var(--color-glow);
+}
+
+.hidden {
+    display: none !important;
+}</style>
 </head>
 <body>
     <div id="game-container">
@@ -37,6 +248,147 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script >// --- Game State Variables ---
+let score = 0;
+let highScore = localStorage.getItem('popHighScore') || 0;
+let isGameRunning = false;
+let balloonInterval;
+const gameDuration = 5000; // Balloon rise time in ms (must match CSS transition: 5s)
+
+// --- DOM Elements ---
+const gameContainer = document.getElementById('game-container');
+const scoreDisplay = document.getElementById('score');
+const highScoreDisplay = document.getElementById('high-score');
+const startButton = document.getElementById('start-button');
+const gameOverModal = document.getElementById('game-over-modal');
+const finalScoreDisplay = document.getElementById('final-score');
+const restartButton = document.getElementById('restart-button');
+
+// Initial setup: Display high score
+highScoreDisplay.textContent = highScore;
+
+const colors = ['#ff6f69', '#ffcc5c', '#88d8b0', '#6aa2d8', '#cc99ff'];
+
+/**
+ * Creates a new balloon element, positions it, and sets it to rise.
+ */
+function createBalloon() {
+    if (!isGameRunning) return;
+
+    const balloon = document.createElement('div');
+    balloon.classList.add('balloon');
+    
+    // Set color
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    balloon.style.backgroundColor = randomColor;
+
+    // Set horizontal position
+    const balloonWidth = 70; // Matches CSS width
+    const maxLeft = gameContainer.clientWidth - balloonWidth;
+    const randomLeft = Math.floor(Math.random() * maxLeft);
+    balloon.style.left = `${randomLeft}px`;
+
+    // Attach pop handler
+    balloon.addEventListener('click', popBalloon);
+
+    gameContainer.appendChild(balloon);
+    
+    // Start the rising animation using CSS transition
+    setTimeout(() => {
+        // The target position is above the game container's height
+        balloon.style.bottom = `${gameContainer.clientHeight + 100}px`;
+    }, 50);
+
+    // Set a timeout for when the balloon should escape (Game Over condition)
+    setTimeout(() => {
+        if (balloon.parentNode && !balloon.classList.contains('pop')) {
+            balloonEscaped(balloon);
+        }
+    }, gameDuration + 100); // 100ms grace period after transition ends
+}
+
+/**
+ * Executes when a balloon reaches the top line (escapes).
+ * @param {HTMLElement} balloon - The escaped balloon element.
+ */
+function balloonEscaped(balloon) {
+    if (!isGameRunning) return;
+
+    // Remove the balloon
+    if (balloon.parentNode) {
+        balloon.remove();
+    }
+    
+    stopGame(); // Game Over!
+}
+
+/**
+ * Handles the click event for popping a balloon.
+ * @param {MouseEvent} event - The click event.
+ */
+function popBalloon(event) {
+    if (!isGameRunning) return;
+
+    const balloon = event.currentTarget;
+    
+    if (balloon.classList.contains('pop')) return;
+    
+    balloon.classList.add('pop');
+    score++;
+    scoreDisplay.textContent = score;
+
+    // Remove the balloon from the DOM after the pop animation
+    setTimeout(() => {
+        if (balloon.parentNode) {
+            balloon.remove();
+        }
+    }, 200);
+}
+
+/**
+ * Starts the game.
+ */
+function startGame() {
+    if (isGameRunning) return;
+    
+    isGameRunning = true;
+    score = 0;
+    scoreDisplay.textContent = score;
+    startButton.classList.add('hidden'); // Hide start button
+    gameOverModal.classList.add('hidden'); // Hide modal
+
+    // Clear any existing balloons
+    document.querySelectorAll('.balloon').forEach(b => b.remove());
+
+    // Start creating new balloons every 1.2 seconds (slightly faster)
+    createBalloon(); 
+    balloonInterval = setInterval(createBalloon, 1200); 
+}
+
+/**
+ * Stops the game and handles the Game Over state.
+ */
+function stopGame() {
+    if (!isGameRunning) return;
+
+    isGameRunning = false;
+    clearInterval(balloonInterval);
+    
+    // 1. Update High Score
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('popHighScore', highScore);
+        highScoreDisplay.textContent = highScore;
+    }
+
+    // 2. Show Game Over Modal
+    finalScoreDisplay.textContent = score;
+    gameOverModal.classList.remove('hidden');
+}
+
+
+// --- Event Listeners ---
+startButton.addEventListener('click', startGame);
+restartButton.addEventListener('click', startGame);</script>
 </body>
 </html>
